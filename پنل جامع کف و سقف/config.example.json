@@ -1,0 +1,8 @@
+{
+  "folder": "C:\\Users\\sedighi.m\\Downloads",
+  "port": 8900,
+  "geminiKey": "REDACTED",
+  "geminiModel": "gemini-flash-latest",
+  "target_date": "auto",
+  "refresh_seconds": 60
+}

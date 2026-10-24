@@ -1,0 +1,55 @@
+/* ===== صفحه «کنترل تخفیف» ===== */
+.ctl { display: flex; flex-direction: column; gap: var(--sp-4); }
+#ctlBody { display: flex; flex-direction: column; gap: var(--sp-4); }
+.kpis.k4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.ctl .ck-t { text-align: start; cursor: pointer; font: inherit; color: inherit; }
+.ct-pick { display: inline-flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.ct-pick select, .ct-tag, .ct-bulk select { background: var(--panel2); border: 1px solid var(--line2); border-radius: var(--r-md); padding: 5px 8px; color: var(--ink); font: inherit; font-size: var(--fs-sm); max-width: 360px; }
+.ct-note { margin: 0 0 10px; line-height: 1.9; }
+.ct-trend { margin-top: 10px; }
+.ct-q { background: var(--panel2); border: 1px solid var(--line2); border-radius: var(--r-md); padding: 6px 11px; color: var(--ink); font: inherit; min-width: 220px; outline: none; }
+.ct-q:focus { border-color: var(--cyan); }
+.ct-n { width: 52px; text-align: center; background: var(--panel2); border: 1px solid var(--line2); border-radius: var(--r-sm); padding: 3px 6px; color: var(--ink); font: inherit; }
+.ct-bulk { display: flex; align-items: center; gap: var(--sp-2); padding: 8px 12px; margin-bottom: 10px; border: 1px solid var(--cyan); border-radius: var(--r-md); background: color-mix(in srgb, var(--cyan) 8%, transparent); }
+.ct-bulk[hidden] { display: none; }
+table.ct-t td { vertical-align: middle; }
+table.ct-t tr.leak td:first-child { box-shadow: inset -3px 0 0 var(--red); }
+table.ct-t .was { color: var(--ink3); }
+table.ct-t.sm { font-size: var(--fs-sm); }
+.ct-tag.on { border-color: var(--green); color: var(--green); }
+.ct-cls { font-size: var(--fs-xs); font-weight: 700; padding: 1px 8px; border-radius: var(--r-pill); white-space: nowrap; background: var(--line2); }
+.ct-cls.free { background: color-mix(in srgb, var(--red) 16%, transparent); color: var(--red); }
+.ct-cls.diff { background: color-mix(in srgb, var(--amber) 16%, transparent); color: var(--amber); }
+.ct-cls.desk { background: color-mix(in srgb, var(--green) 16%, transparent); color: var(--green); }
+.ct-cls.sync { background: color-mix(in srgb, var(--cyan) 14%, transparent); color: var(--cyan); }
+.ct-cls.init { background: color-mix(in srgb, var(--violet) 16%, transparent); color: var(--violet); }
+.ct-empty p { line-height: 2; color: var(--ink2); }
+
+/* بودجه */
+.buds { display: flex; flex-direction: column; gap: 10px; margin: 6px 0 14px; }
+.bud-h { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; font-size: var(--fs-sm); margin-bottom: 4px; }
+.bud-bar { position: relative; height: 12px; border-radius: var(--r-pill); background: var(--panel2); border: 1px solid var(--line); overflow: hidden; }
+.bud-bar i { position: absolute; inset-block: 0; inset-inline-start: 0; border-radius: var(--r-pill); }
+.bud-bar i.proj { background: repeating-linear-gradient(45deg, color-mix(in srgb, var(--cyan) 25%, transparent) 0 6px, transparent 6px 10px); }
+.bud-bar i.used { background: var(--cyan); }
+.bud.warn .bud-bar i.used { background: var(--amber); }
+.bud.over .bud-bar i.used { background: var(--red); box-shadow: 0 0 10px var(--red); }
+.bud.over .bud-h b { color: var(--red); }
+.bud-bar .m80 { position: absolute; inset-block: 0; inset-inline-start: 80%; width: 2px; background: var(--ink3); opacity: .6; }
+.ct-sbar { display: flex; height: 5px; border-radius: var(--r-pill); overflow: hidden; margin-top: 4px; background: var(--panel2); max-width: 260px; }
+.ct-sbar i { background: var(--cyan); }
+.ct-sbar i.b { background: var(--red); }
+.b-row { display: grid; grid-template-columns: 90px 1fr 190px 28px; gap: var(--sp-2); align-items: center; margin-bottom: 6px; }
+.b-row select, .b-row input { background: var(--panel2); border: 1px solid var(--line2); border-radius: var(--r-md); padding: 6px 9px; color: var(--ink); font: inherit; }
+.m-box select { background: var(--panel2); border: 1px solid var(--line2); border-radius: var(--r-md); padding: 7px 10px; color: var(--ink); font: inherit; }
+
+/* قرارداد تأمین‌کننده */
+.ag-card { display: flex; flex-direction: column; gap: 10px; }
+.ag-card details summary { cursor: pointer; font-size: var(--fs-sm); color: var(--ink2); }
+.ag-card .pv-grid b.sm { font-size: var(--fs-sm); font-weight: 600; }
+.ag-st { font-size: var(--fs-2xs); padding: 1px 8px; border-radius: var(--r-pill); font-weight: 700; }
+.ag-st.on { background: color-mix(in srgb, var(--green) 16%, transparent); color: var(--green); }
+.ag-st.ended { background: color-mix(in srgb, var(--red) 14%, transparent); color: var(--red); }
+.ag-st.future { background: color-mix(in srgb, var(--violet) 16%, transparent); color: var(--violet); }
+
+@media (max-width: 1100px) { .kpis.k4 { grid-template-columns: 1fr 1fr; } .b-row { grid-template-columns: 80px 1fr; } }

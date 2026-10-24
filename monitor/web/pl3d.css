@@ -1,0 +1,169 @@
+/* ===== «سود و زیان» سه‌بعدی: نقشه فروشگاه‌ها + پنل کنار (کلاس‌ها با پیشوند pv-) ===== */
+.pv-wrap { display: grid; grid-template-columns: 470px minmax(0, 1fr); height: calc(100vh - 112px); min-height: 640px; border: 1px solid var(--line); border-radius: var(--r-lg); overflow: hidden; user-select: none; }
+.pv-stage { position: relative; overflow: hidden; background: linear-gradient(180deg, var(--stage-top, var(--panel2)), var(--stage-bottom, var(--panel2))); }
+.pv-canvas { position: absolute; inset: 0; }
+.pv-canvas canvas { width: 100% !important; height: 100% !important; display: block; outline: none; touch-action: none; }
+.pv-labels { position: absolute; inset: 0; pointer-events: none; overflow: hidden; z-index: 2; }
+.pv-ctl { top: 74px; inset-inline-end: 14px; }
+
+/* برچسب فروشگاه */
+.pv-lab { position: absolute; top: 0; left: 0; pointer-events: auto; display: flex; align-items: center; gap: 6px; padding: 4px 10px 4px 8px; border-radius: var(--r-pill); cursor: pointer; white-space: nowrap; font: inherit; color: var(--ink);
+  background: color-mix(in srgb, var(--panel) 90%, transparent); border: 1px solid var(--line2); box-shadow: var(--sh-2); backdrop-filter: blur(8px); transition: border-color var(--dur-2), box-shadow var(--dur-2); }
+.pv-lab b { font-size: var(--fs-xs); font-weight: 800; }
+.pv-lab em { font-style: normal; font-size: 10.5px; color: var(--ink3); }
+.pv-lab .r { color: var(--red); font-weight: 700; }
+.pv-lab:hover, .pv-lab.on { border-color: var(--cyan); box-shadow: 0 0 0 3px color-mix(in srgb, var(--cyan) 25%, transparent), var(--sh-2); }
+.pv-lab.t-red { border-color: color-mix(in srgb, var(--red) 55%, var(--line2)); }
+.pv-lab.t-none { opacity: .8; }
+.pv-lab.cmp em { display: none; }
+.pv-lab.dotonly { padding: 4px; }
+.pv-lab.dotonly b { display: none; }
+.pv-lab[hidden] { display: none; }
+.pv-city { position: absolute; top: 0; left: 0; font-size: var(--fs-sm); font-weight: 800; color: var(--ink3); letter-spacing: .02em; opacity: .75; white-space: nowrap; }
+.pv-city[hidden] { display: none; }
+
+/* راهنما و جمع بالای صحنه */
+.pv-kpis { position: absolute; top: 12px; inset-inline: 14px; display: flex; gap: 10px; justify-content: space-between; align-items: flex-start; z-index: 3; pointer-events: none; }
+.pv-legend { display: flex; flex-wrap: wrap; gap: 4px 14px; padding: 8px 12px; font-size: var(--fs-2xs); color: var(--ink2); max-width: 640px; pointer-events: auto; }
+.pv-legend span { display: inline-flex; align-items: center; gap: 4px; }
+.pv-legend .dot { width: 8px; height: 8px; }
+.lg-b { width: 8px; height: 14px; border-radius: 2px; background: var(--ink3); display: inline-block; }
+.lg-c { width: 11px; height: 11px; border-radius: 50%; background: #ffc23d; box-shadow: inset 0 0 0 2px color-mix(in srgb, #000 15%, transparent); display: inline-block; }
+.lg-c.v { background: var(--violet); }
+.lg-f { width: 12px; height: 7px; border-radius: 2px; background: color-mix(in srgb, var(--red) 65%, transparent); display: inline-block; }
+.lg-k { width: 9px; height: 9px; border-radius: 2px; background: var(--neutral); display: inline-block; }
+.pv-sum { padding: 8px 14px; display: flex; flex-direction: column; align-items: flex-end; pointer-events: auto; }
+.pv-sum b { font-size: var(--fs-xl); color: var(--red); font-variant-numeric: tabular-nums; }
+.pv-sum small { font-size: var(--fs-2xs); color: var(--ink3); }
+
+/* نوار زمان */
+.pv-time { position: absolute; bottom: 12px; inset-inline: 14px; z-index: 3; padding: 8px 12px 4px; display: flex; flex-direction: column; gap: 3px; max-height: calc(100% - 90px); overflow-y: auto; }
+.pv-tl { display: flex; align-items: center; gap: 6px 8px; flex-wrap: wrap; }
+.pv-len { display: inline-flex; border: 1px solid var(--line2); border-radius: var(--r-pill); overflow: hidden; }
+.pv-len button { border: 0; background: none; color: var(--ink2); font: inherit; font-size: var(--fs-2xs); font-weight: 700; padding: 4px 10px; cursor: pointer; white-space: nowrap; }
+.pv-len button.on { background: var(--cyan); color: var(--on-cyan); }
+.pv-tg { border: 1px solid var(--line2); background: none; color: var(--ink2); font: inherit; font-size: var(--fs-2xs); font-weight: 700; padding: 4px 10px; border-radius: var(--r-pill); cursor: pointer; white-space: nowrap; }
+.pv-tg.on { border-color: var(--cyan); color: var(--cyan); background: color-mix(in srgb, var(--cyan) 10%, transparent); }
+.pv-rng { font-size: var(--fs-xs); color: var(--ink3); margin-inline-start: auto; white-space: nowrap; }
+.pv-rng b { color: var(--ink); }
+.pv-rng b.r { color: var(--red); } .pv-rng b.v { color: var(--violet); }
+.pv-hint { margin: 0; font-size: 10px; color: var(--ink3); }
+
+/* نمودار و نشانه‌ها */
+.pv-tchart { position: relative; touch-action: none; }
+.pv-tchart.main { cursor: crosshair; margin-top: 12px; }
+.pv-tsv { width: 100%; display: block; overflow: visible; }
+.pv-tsv .hit { fill: transparent; }
+.pv-tsv g { cursor: pointer; }
+.pv-tsv g.out rect:not(.hit) { opacity: .38; }
+.pv-tsv g.in .hit { fill: color-mix(in srgb, var(--cyan) 8%, transparent); }
+.pv-tsv g.sel .hit { fill: color-mix(in srgb, var(--amber) 28%, transparent); }
+.pv-tsv g:hover .hit { fill: color-mix(in srgb, var(--cyan) 18%, transparent); }
+.pv-tsv .fri { fill: color-mix(in srgb, var(--ink3) 7%, transparent); }
+.pv-tsv .mon { stroke: var(--line2); stroke-width: 1; stroke-dasharray: 3 3; vector-effect: non-scaling-stroke; }
+.pv-tsv .zero { stroke: var(--ink3); stroke-width: 1; vector-effect: non-scaling-stroke; }
+.pv-tsv .bwin { fill: none; stroke: var(--amber); stroke-width: 1.4; stroke-dasharray: 5 3; vector-effect: non-scaling-stroke; }
+.pv-tsv .fcb { fill: color-mix(in srgb, var(--red) 30%, transparent); stroke: var(--red); stroke-width: 1; stroke-dasharray: 3 2; vector-effect: non-scaling-stroke; }
+.pv-tsv g.fc { cursor: help; }
+.pv-brush { position: absolute; top: 0; bottom: 0; background: color-mix(in srgb, var(--cyan) 22%, transparent); border-inline: 2px solid var(--cyan); pointer-events: none; }
+.pv-brush[hidden] { display: none; }
+.pv-mk { position: absolute; top: -12px; transform: translateX(-50%); font-size: 10px; line-height: 1; white-space: nowrap; pointer-events: none; }
+.pv-mk.clip { color: var(--ink2); font-weight: 700; background: color-mix(in srgb, var(--panel) 85%, transparent); border-radius: 4px; padding: 1px 3px; }
+.pv-mk.spike { pointer-events: auto; top: -14px; border: 0; background: var(--amber-fill, var(--amber)); color: #1b1b1b; width: 16px; height: 16px; border-radius: 50%; cursor: pointer; display: grid; place-items: center; box-shadow: var(--sh-1); }
+.pv-mk.spike:hover { transform: translateX(-50%) scale(1.2); }
+.pv-axis { position: relative; height: 13px; }
+.pv-mon { position: absolute; top: 0; transform: translateX(-100%); font-size: 10px; color: var(--ink3); white-space: nowrap; padding-inline-start: 3px; }
+.pv-mon.fcl { transform: translateX(-50%); color: var(--red); font-weight: 700; }
+.pv-clg { display: flex; flex-wrap: wrap; gap: 2px 12px; font-size: 10px; color: var(--ink2); }
+.pv-clg span { display: inline-flex; align-items: center; gap: 4px; }
+.pv-clg i { width: 9px; height: 9px; border-radius: 2px; display: inline-block; }
+.pv-clg em { font-style: normal; color: var(--ink3); }
+
+/* رویدادها */
+.pv-evs { position: relative; height: 10px; }
+.pv-evs.big { height: 36px; margin-top: 2px; }
+.pv-ev { position: absolute; transform: translateX(-50%); width: 8px; height: 8px; border-radius: 50%; border: 0; padding: 0; cursor: pointer; top: 1px; }
+.pv-ev:hover { transform: translateX(-50%) scale(1.5); }
+.pv-ev.k1, .pv-ev.l1 { background: var(--amber); }
+.pv-ev.k2, .pv-ev.l2 { background: var(--green); }
+.pv-ev.k3, .pv-ev.l3 { background: var(--cyan); }
+.pv-evs.big .l1 { top: 1px; } .pv-evs.big .l2 { top: 13px; } .pv-evs.big .l3 { top: 25px; }
+.pv-evl { position: absolute; inset-inline-start: 0; font-size: 9.5px; font-weight: 700; color: var(--ink3); line-height: 10px; pointer-events: none; background: color-mix(in srgb, var(--panel) 80%, transparent); padding-inline-end: 4px; z-index: 1; }
+.pv-evl.l1 { top: 0; background: none; } .pv-evl.l2 { top: 12px; background: none; } .pv-evl.l3 { top: 24px; background: none; }
+.pv-evl::before { content: ''; display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-inline-end: 4px; vertical-align: middle; }
+.pv-evl.l1::before { background: var(--amber); } .pv-evl.l2::before { background: var(--green); } .pv-evl.l3::before { background: var(--cyan); }
+
+/* ردیف هر فروشگاه (حالت بزرگ) */
+.pv-srows { display: flex; flex-direction: column; gap: 3px; border-top: 1px solid var(--line); padding-top: 5px; margin-top: 2px; }
+.pv-srow { display: grid; grid-template-columns: 96px minmax(0, 1fr); align-items: center; gap: 6px; border-radius: var(--r-sm); }
+.pv-srow.on { background: color-mix(in srgb, var(--cyan) 9%, transparent); }
+.pv-sl { display: flex; align-items: center; gap: 5px; border: 0; background: none; color: var(--ink); font: inherit; font-size: var(--fs-2xs); font-weight: 700; cursor: pointer; text-align: start; padding: 2px 4px; white-space: nowrap; overflow: hidden; }
+.pv-sl:hover { color: var(--cyan); }
+.pv-tchart.mini .pv-tsv g { cursor: default; }
+
+/* کارت روز و مقایسه در پنل */
+.pv-day, .pv-cmp { display: flex; flex-direction: column; gap: 8px; padding: 10px 12px; border: 1px solid color-mix(in srgb, var(--amber) 45%, var(--line)); border-radius: var(--r-lg); background: color-mix(in srgb, var(--amber) 5%, var(--panel)); }
+.pv-cmp { border-color: color-mix(in srgb, var(--cyan) 40%, var(--line)); background: color-mix(in srgb, var(--cyan) 4%, var(--panel)); }
+.pv-cbar { display: flex; height: 10px; border-radius: var(--r-pill); overflow: hidden; background: var(--panel3); }
+.pv-cbar i { display: block; height: 100%; }
+
+/* پنل کنار */
+.pv-panel { background: var(--panel); border-inline-end: 1px solid var(--line); overflow-y: auto; padding: 14px 16px 18px; display: flex; flex-direction: column; gap: 10px; user-select: text; }
+.pv-panel > * { flex: none; }
+.pv-h { display: flex; align-items: center; gap: 10px; }
+.pv-h > div { flex: 1; min-width: 0; }
+.pv-h small { color: var(--ink3); font-size: var(--fs-2xs); }
+.pv-h h3 { margin: 1px 0 0; font-size: var(--fs-xl); }
+.pv-note { margin: 0; font-size: var(--fs-2xs); color: var(--ink3); line-height: var(--lh); }
+.pv-note.warn { color: var(--ink2); background: color-mix(in srgb, var(--amber) 12%, transparent); border: 1px solid color-mix(in srgb, var(--amber) 35%, transparent); border-radius: var(--r-md); padding: 8px 10px; }
+.pv-kg { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+.pv-kg.k6 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.pv-k { background: var(--panel2); border: 1px solid var(--line); border-radius: var(--r-md); padding: 7px 10px; display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.pv-k small { font-size: 10.5px; color: var(--ink3); }
+.pv-k b { font-size: var(--fs-md); font-weight: 800; font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pv-k em { font-style: normal; font-size: 10.5px; color: var(--ink3); }
+.pv-k.red b { color: var(--red); } .pv-k.violet b { color: var(--violet); } .pv-k.amber b { color: var(--amber); }
+.pv-sh { margin: 6px 0 0; font-size: var(--fs-sm); font-weight: 800; }
+.pv-sh small { font-weight: 400; color: var(--ink3); }
+.pv-tw { border: 1px solid var(--line); border-radius: var(--r-lg); overflow: hidden; }
+.pv-rank tbody tr { cursor: pointer; }
+.pv-rank td { white-space: nowrap; }
+.pv-cap { caption-side: bottom; text-align: start; font-size: 10px; color: var(--ink3); padding: 4px 8px; }
+.pv-rank td.v, .pv-panel .v { color: var(--violet); }
+.pv-panel .r, .pv-item .r { color: var(--red); }
+.pv-panel .g, .pv-rial.g { color: var(--green); }
+.pv-ins { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 5px; }
+.pv-ins li { display: flex; gap: 8px; align-items: flex-start; font-size: var(--fs-xs); line-height: var(--lh); background: color-mix(in srgb, var(--cyan) 6%, transparent); border-radius: var(--r-md); padding: 6px 9px; }
+.pv-ins .ico { color: var(--cyan); margin-top: 3px; flex: none; }
+.pv-days small { font-size: 10.5px; color: var(--ink3); display: flex; align-items: center; gap: 4px; }
+.sw { width: 8px; height: 8px; border-radius: 2px; display: inline-block; background: var(--red); }
+.sw.v { background: var(--violet); }
+.pv-dsv { width: 100%; height: 64px; display: block; margin-top: 3px; }
+.pv-tabs { display: flex; flex-wrap: wrap; gap: 4px; border-bottom: 1px solid var(--line); padding-bottom: 6px; }
+.pv-tabs button { border: 1px solid transparent; background: none; color: var(--ink2); font: inherit; font-size: var(--fs-2xs); font-weight: 700; padding: 4px 9px; border-radius: var(--r-pill); cursor: pointer; }
+.pv-tabs button em { font-style: normal; color: var(--ink3); font-weight: 400; }
+.pv-tabs button:hover { border-color: var(--line2); }
+.pv-tabs button.on { background: var(--cyan); color: var(--on-cyan); }
+.pv-tabs button.on em { color: inherit; opacity: .8; }
+.pv-tools { display: flex; gap: 6px; }
+.pv-tools input { flex: 1; background: var(--panel2); border: 1px solid var(--line2); border-radius: var(--r-md); padding: 6px 10px; color: var(--ink); font: inherit; font-size: var(--fs-xs); outline: none; }
+.pv-tools input:focus { border-color: var(--cyan); }
+.pv-list { display: flex; flex-direction: column; gap: 4px; }
+.pv-row { display: flex; flex-direction: column; gap: 3px; text-align: start; width: 100%; border: 1px solid var(--line); background: var(--panel2); color: var(--ink); font: inherit; border-radius: var(--r-md); padding: 7px 10px; cursor: pointer; }
+.pv-row:hover { border-color: var(--cyan); }
+.pv-r1 { display: flex; gap: 8px; align-items: baseline; }
+.pv-r1 b { flex: 1; min-width: 0; font-size: var(--fs-xs); font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pv-rial { font-size: var(--fs-xs); font-weight: 800; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.pv-r2 { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; }
+.pv-r2 small { color: var(--ink3); font-size: 10px; margin-inline-start: auto; }
+.pv-r3 { font-size: 10.5px; color: var(--ink3); line-height: 1.6; }
+
+/* کارت کالا */
+.pv-item { width: min(980px, 96vw); }
+.pv-item .nt-ih .btn { white-space: nowrap; }
+.pv-why, .pv-ev { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 5px; font-size: var(--fs-xs); line-height: var(--lh); }
+.pv-ev li { background: var(--panel2); border-radius: var(--r-md); padding: 6px 9px; }
+.pv-chart svg { width: 100%; height: auto; }
+.pv-item .nt-t tr.on { background: color-mix(in srgb, var(--cyan) 10%, transparent); }
+
+@media (max-width: 1180px) { .pv-wrap { grid-template-columns: 380px minmax(0, 1fr); } .pv-legend { max-width: 380px; } }

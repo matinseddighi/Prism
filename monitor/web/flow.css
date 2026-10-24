@@ -1,0 +1,34 @@
+/* تب «تأیید و اعمال» — کلاس‌ها با پیشوند fl- */
+.fl { display: flex; flex-direction: column; gap: var(--sp-3); }
+.fl .tb-sp { flex: 1; }
+.fl-head { display: flex; align-items: center; gap: var(--sp-3); flex-wrap: wrap; }
+.fl-head h2 { margin: 0; font-size: var(--fs-xl); display: flex; align-items: center; gap: 8px; }
+.fl-k { text-align: right; cursor: pointer; font: inherit; color: inherit; }
+.fl-tabs { align-self: flex-start; }
+.fl-tabs button b, .fl-bar .seg button b { margin-inline-start: 4px; font-variant-numeric: tabular-nums; }
+.fl-bar { display: flex; align-items: center; gap: var(--sp-3); flex-wrap: wrap; }
+.fl-bar .seg { flex-wrap: wrap; }
+.fl-q { max-width: 280px; margin: 0; }
+.fl-tbl { padding: 0; overflow-x: auto; }
+.fl table.simple th.ck, .fl table.simple td.ck { width: 34px; text-align: center; }
+.fl table.simple tr.on td { background: color-mix(in srgb, var(--cyan) 7%, transparent); }
+.fl table.simple tr.off td { opacity: .5; }
+.fl table.simple tr.off td.it b { text-decoration: line-through; }
+.fl-kind { display: inline-flex; align-items: center; gap: 4px; font-size: var(--fs-2xs); padding: 2px 8px; border-radius: var(--r-pill, 999px); background: var(--panel2); border: 1px solid var(--line); white-space: nowrap; }
+.fl-kind.k-desk { color: var(--cyan); } .fl-kind.k-pp { color: var(--violet); } .fl-kind.k-rev { color: var(--amber); } .fl-kind.k-basket { color: var(--green); }
+.fl-erp { display: inline-block; font-size: var(--fs-2xs); font-variant-numeric: tabular-nums; padding: 1px 6px; border-radius: var(--r-sm); background: var(--tag-fill, var(--panel2)); border: 1px solid var(--line2); }
+.fl-warn { font-size: var(--fs-2xs); color: var(--amber); display: inline-flex; gap: 4px; align-items: center; max-width: 320px; }
+.fl-act { position: sticky; bottom: 10px; z-index: 5; display: flex; align-items: center; gap: var(--sp-3); flex-wrap: wrap; padding: 10px 14px; border-radius: var(--r-lg); background: var(--panel); border: 1px solid var(--line2); box-shadow: var(--sh-3); }
+.fl-act.on { border-color: color-mix(in srgb, var(--cyan) 55%, var(--line2)); }
+.fl-b { padding: 0; overflow: hidden; }
+.fl-bh { display: flex; align-items: center; gap: var(--sp-3); flex-wrap: wrap; padding: 10px 14px; }
+.fl-bt { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; background: none; border: 0; padding: 0; cursor: pointer; color: inherit; font: inherit; text-align: right; }
+.fl-bt b { font-size: var(--fs-lg); }
+.fl-bt .muted { font-size: var(--fs-xs); }
+.fl-acts { display: flex; gap: 6px; flex-wrap: wrap; }
+.fl-b.st-sent { border-inline-start: 3px solid var(--violet); }
+.fl-b.st-ok { border-inline-start: 3px solid var(--amber); }
+.fl-b.st-erp { border-inline-start: 3px solid var(--green); }
+.fl-b.st-no, .fl-b.st-void { opacity: .65; }
+.fl-items { border-top: 1px solid var(--line); }
+.fl-b .fl-act { position: static; margin: 8px 12px 12px; box-shadow: none; }

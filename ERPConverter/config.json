@@ -1,0 +1,19 @@
+{
+  "server_port": 8700,
+  "server_host": "127.0.0.1",
+  "downloads_dir": "C:\\Users\\sedighi.m\\Downloads",
+  "d_convert_base_dir": "D:\\1.sed daily 405\\2.کانورت",
+  "history_reference_dir": "D:\\1.sed daily 405\\2.کانورت",
+  "default_setad_modes": {
+    "پنير پيتزا رنده شده": 5,
+    "پنير خامه اي و لبنه": 4,
+    "دسر و ژله آماده": 3,
+    "قند": 2,
+    "default": 3
+  },
+  "default_sood_modes": {
+    "برنج ايراني": 5,
+    "جامد و نيمه جامد": 5,
+    "default": 7
+  }
+}

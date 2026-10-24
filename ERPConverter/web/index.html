@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ERPConverter — سامانه جامع قیمت‌گذاری و کانورت خودکار</title>
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="header-right">
+        <div class="header-title-box">
+          <span style="font-size: 20px;">⚡</span>
+          <h1 class="app-title">سامانه جامع قیمت‌گذاری و کانورت ERP</h1>
+          <span class="badge badge-cyan">نسخه مستقل ۱.۰</span>
+        </div>
+      </div>
+      <div class="header-left">
+        <button id="openFolderBtn" class="btn btn-sm" title="باز کردن پوشه خروجی کانورت روز">📂 باز کردن پوشه کانورت</button>
+        <button id="themeToggleBtn" class="btn btn-sm" title="تغییر پوسته تیره/روشن">🌓 تغییر پوسته</button>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- File Discovery & Action Bar -->
+      <section class="control-bar">
+        <div class="source-status-text" id="sourceStatusText">
+          در حال بررسی فایل‌های موجود در پوشه Downloads...
+        </div>
+        <div style="display: flex; gap: var(--sp-2); flex-wrap: wrap;">
+          <button id="loadLatestBtn" class="btn btn-primary">⚡ بارگذاری آخرین فایل امروز</button>
+          <button id="exportAllBtn" class="btn btn-success">💾 تولید و ذخیره تمام فایل‌های کانورت</button>
+          <button id="copySetadBtn" class="btn btn-sm">📋 کپی هزینه ستاد (۹۴۶)</button>
+          <button id="copySoodBtn" class="btn btn-sm">📋 کپی سود فروشگاه (۹۴۰)</button>
+        </div>
+      </section>
+
+      <!-- KPI Summary Cards -->
+      <section class="kpi-grid">
+        <div class="kpi-card">
+          <span class="kpi-title">تعداد کل اقلام در گزارش</span>
+          <span class="kpi-value cyan" id="kpiTotal">۰</span>
+          <span class="kpi-sub">کل کالاهای پیشنهادی روز</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-title">اقلام فاقد مقدار ستاد یا سود</span>
+          <span class="kpi-value amber" id="kpiMissing">۰</span>
+          <span class="kpi-sub">نیازمند تعیین مد و کانورت</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-title">اقلام قابل کانورت تخفیف</span>
+          <span class="kpi-value green" id="kpiConvertible">۰</span>
+          <span class="kpi-sub">دارای درصد تخفیف معتبر (>۰٪)</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-title">کسری قیمت فروشگاه</span>
+          <span class="kpi-value red" id="kpiDeficits">۰</span>
+          <span class="kpi-sub">نیازمند توجه بازرگانی</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-title">کالاهای جدید امروز</span>
+          <span class="kpi-value violet" id="kpiNewGoods">۰</span>
+          <span class="kpi-sub">نسبت به گزارش مرجع قبل</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-title">اقلام برندهای ۹‌گانه کلیدی</span>
+          <span class="kpi-value cyan" id="kpiRequested">۰</span>
+          <span class="kpi-sub">گل‌بانو، پالود، ورامین، نانسی...</span>
+        </div>
+      </section>
+
+      <!-- Tabs Navigation -->
+      <nav class="tabs-nav">
+        <button class="tab-btn active" data-tab="tabMissing">📊 اقلام فاقد مقدار و نیازمند کانورت</button>
+        <button class="tab-btn" data-tab="tabRequested">⭐ استخراج اقلام برندهای ۹‌گانه</button>
+        <button class="tab-btn" data-tab="tabNewGoods">🆕 کالاهای جدید اضافه شده</button>
+        <button class="tab-btn" data-tab="tabSoodSetad">🏢 سود ستاد (دسته ۸۰۰)</button>
+      </nav>
+
+      <!-- Tab Panes -->
+      <!-- Tab 1: Missing Items Grid -->
+      <div id="tabMissing" class="tab-pane active panel-card">
+        <div id="gridContainer"></div>
+      </div>
+
+      <!-- Tab 2: Requested Brands -->
+      <div id="tabRequested" class="tab-pane panel-card" style="display: none;">
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>عنوان دسته درخواستی</th>
+                <th>تعداد کالا</th>
+                <th>اقلام شاخص نمونه</th>
+                <th>دامنه تخفیف تأمین</th>
+                <th>سودهای ثبت‌شده</th>
+                <th>هزینه ستاد</th>
+              </tr>
+            </thead>
+            <tbody id="requestedTabBody">
+              <tr><td colspan="7" style="text-align:center; padding: 20px; color: var(--ink2);">فایل بارگذاری نشده است.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Tab 3: New Goods -->
+      <div id="tabNewGoods" class="tab-pane panel-card" style="display: none;">
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>کد کالا</th>
+                <th>نام کالا</th>
+                <th>نام برند</th>
+                <th>گروه کالایی</th>
+                <th>تاریخ افتتاح</th>
+              </tr>
+            </thead>
+            <tbody id="newGoodsTabBody">
+              <tr><td colspan="6" style="text-align:center; padding: 20px; color: var(--ink2);">فایل بارگذاری نشده است.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Tab 4: Sood Setad -->
+      <div id="tabSoodSetad" class="tab-pane panel-card" style="display: none;">
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>کد کالا</th>
+                <th>نام کالا</th>
+                <th>برند</th>
+                <th>گروه کالایی</th>
+                <th>سود ستاد تعیین‌شده (مبنا)</th>
+              </tr>
+            </thead>
+            <tbody id="soodSetadTabBody">
+              <tr><td colspan="6" style="text-align:center; padding: 20px; color: var(--ink2);">فایل عامل بارگذاری نشده است.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+
+    <!-- Toast Notifications Container -->
+    <div id="toastContainer" class="toast-container"></div>
+  </div>
+
+  <script src="js/grid.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

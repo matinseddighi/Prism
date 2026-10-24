@@ -1,0 +1,53 @@
+{
+  "base": "https://rbb.palood.ir/gateway",
+  "apiKey": "REDACTED",
+  "webhookSecret": "REDACTED",
+  "requests": [
+    {
+      "id": "group-discount",
+      "code": "agent-pakhsh-group-discount-percent",
+      "label": "پیشنهاد درصد تخفیف گروهی",
+      "auto": true
+    },
+    {
+      "id": "batch-number",
+      "code": "agent-pakhsh-batch-number",
+      "label": "سری ساخت",
+      "auto": false
+    },
+    {
+      "id": "purchase-needed",
+      "code": "agent-pakhsh-purchase-needed",
+      "label": "نیاز به خرید",
+      "auto": false
+    },
+    {
+      "id": "shops-profit",
+      "code": "agent-pakhsh-shops-profit",
+      "label": "سود و زیان",
+      "auto": false,
+      "params": [
+        {
+          "name": "start_time",
+          "type": "string",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "end_time",
+          "type": "string",
+          "required": true,
+          "default": null
+        }
+      ]
+    }
+  ],
+  "autoTime": "07:30",
+  "pollSec": 60,
+  "webhook": {
+    "enabled": false,
+    "port": 8810,
+    "path": "/webhook/gateway"
+  },
+  "insecure": false
+}

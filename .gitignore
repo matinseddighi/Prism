@@ -1,0 +1,42 @@
+# data, reports and caches (business data, large, regenerated)
+گزارش‌ها/
+*.xlsx
+*.xls
+*.zip
+*.csv
+cache/
+*_cache/
+gateway_results/
+*.cache.json
+*.db
+*.sqlite
+*.sqlite3
+*.db-shm
+*.db-wal
+*.log
+
+# secrets / local config
+.env
+*.env
+*.key
+*.pem
+.claude/
+.agents/
+skills-lock.json
+monitor/config.json
+monitor/gateway.json
+monitor/gateway_state.json
+monitor/header_cache.json
+monitor/sort_cache.json
+monitor/sort_log.json
+پنل جامع کف و سقف/config.json
+
+# python / node / os
+__pycache__/
+*.pyc
+.venv/
+venv/
+node_modules/
+.DS_Store
+Thumbs.db
+~$*

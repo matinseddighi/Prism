@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShelfMaster | پنل مدیریت هوشمند کف و سقف و کانورت ERP</title>
+    <link rel="stylesheet" href="/css/tokens.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- HEADER -->
+        <header class="app-header">
+            <div class="brand-section">
+                <a href="#" class="brand-logo">
+                    <span class="brand-logo-icon">📦</span>
+                    <span>Shelf<span class="accent">Master</span></span>
+                </a>
+                <div class="live-badge">
+                    <span class="live-dot"></span>
+                    <span>سیستم زنده</span>
+                </div>
+                <div class="active-file-chip" id="activeFileBadge" title="فایل جاری پیشنهاد ارسال">
+                    <span class="file-icon">📄</span>
+                    <span class="file-name" id="activeFileName">در حال بارگذاری فایل پیشنهاد ارسال...</span>
+                </div>
+            </div>
+
+            <div class="header-actions">
+                <div class="clock-display" id="clockDisplay">--:--:--</div>
+                <button class="btn btn-secondary btn-sm" id="btnOpenFolder" title="باز کردن پوشه کانورت روزانه در Explorer">
+                    📂 باز کردن پوشه کانورت
+                </button>
+                <button class="btn btn-secondary btn-sm" id="btnRefresh" title="بررسی فایل جدید در Downloads">
+                    🔄 بررسی فایل جدید
+                </button>
+                <button class="btn btn-outline btn-sm btn-icon" id="btnTheme" title="تغییر پوسته (تاریک / روشن)">
+                    🌓
+                </button>
+            </div>
+        </header>
+
+        <!-- NAVIGATION TABS -->
+        <nav class="nav-tabs" id="navTabs">
+            <button class="tab-btn active" data-tab="tab-convert">
+                <span>📦</span>
+                <span>تولید کانورت ERP</span>
+                <span class="tab-badge" id="badgeConvertCount">۰</span>
+            </button>
+            <button class="tab-btn" data-tab="tab-ai">
+                <span>🤖</span>
+                <span>دستیار هوشمند و عکس</span>
+            </button>
+            <button class="tab-btn" data-tab="tab-audit">
+                <span>🛡️</span>
+                <span>پایش سلامت و مغایرت‌ها</span>
+                <span class="tab-badge" id="badgeAuditCount">۰</span>
+            </button>
+            <button class="tab-btn" data-tab="tab-diff">
+                <span>🔍</span>
+                <span>ردیاب تغییرات و تلگرام</span>
+            </button>
+            <button class="tab-btn" data-tab="tab-presets">
+                <span>⚡</span>
+                <span>شناسنامه و سناریوها</span>
+            </button>
+        </nav>
+
+        <!-- MAIN CONTENT AREA -->
+        <main class="main-content">
+
+            <!-- ─────────────────────────────────────────────────────────────
+                 TAB 1: ERP CONVERT GENERATOR
+                 ───────────────────────────────────────────────────────────── -->
+            <section class="tab-pane active" id="tab-convert">
+                <div class="toolbar-card">
+                    <div class="toolbar-group">
+                        <label for="storeSelect" style="font-weight: 700; color: var(--text-secondary);">شعبه:</label>
+                        <select class="form-select" id="storeSelect" style="min-width: 200px;">
+                            <option value="">در حال بارگذاری شعب...</option>
+                        </select>
+
+                        <div class="search-box-wrapper">
+                            <span class="search-icon">🔍</span>
+                            <input type="text" class="form-control" id="searchConvert" placeholder="جستجوی کالا بر اساس نام، کد یا برند...">
+                        </div>
+
+                        <span class="badge-count" id="convertCountBadge">
+                            تعداد: <b id="convertVisibleCount">۰</b> از <span id="convertTotalCount">۰</span> کالا
+                        </span>
+                    </div>
+
+                    <div class="toolbar-group">
+                        <button class="btn btn-outline" id="btnUploadCustomExcel" title="بارگذاری فایل اکسل دلخواه (مانند پودر رحمت‌آباد، ماکارونی و ...) جهت بررسی خودکار انطباق بچ و تولید فوری فایل کانورت ERP">
+                            📊 بررسی و کانورت اکسل دلخواه
+                        </button>
+                        <input type="file" id="customExcelInput" accept=".xlsx, .xls" style="display: none;">
+                        <button class="btn btn-primary" id="btnExportStore">
+                            🚀 تولید فایل کانورت شعبه
+                        </button>
+                        <button class="btn btn-success" id="btnCopyERP" title="کپی ۵ ستون استاندارد ERP به کلیپ‌بورد برای پیست مستقیم در نرم‌افزار">
+                            📋 کپی ۵ ستون استاندارد ERP
+                        </button>
+                        <button class="btn btn-secondary" id="btnExportAll" title="تولید یکجای فایل‌های کانورت تمام شعب شبکه">
+                            🌐 تولید کانورت کل شعب شبکه
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Custom Excel Inspection Banner -->
+                <div class="custom-excel-banner" id="customExcelBanner" style="display: none; background: var(--bg-surface-elevated); border: 1px solid var(--color-primary); border-radius: var(--radius-md); padding: 1rem 1.25rem; margin-bottom: 1.25rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
+                        <div style="display: flex; align-items: center; gap: 0.75rem;">
+                            <span style="font-size: 1.6rem;">📊</span>
+                            <div>
+                                <h4 id="customExcelTitle" style="font-size: 1rem; font-weight: 700; margin-bottom: 0.25rem; color: var(--text-primary);">نتیجه بررسی فایل اکسل سفارشی</h4>
+                                <div id="customExcelStats" style="font-size: 0.85rem; color: var(--text-secondary); display: flex; gap: 1rem; flex-wrap: wrap;">
+                                    <!-- Stats dynamically populated -->
+                                </div>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 0.5rem; align-items: center;">
+                            <button class="btn btn-success btn-sm" id="btnCopyCustomERP">
+                                📋 کپی ۵ ستون ERP
+                            </button>
+                            <button class="btn btn-secondary btn-sm" id="btnOpenCustomFolder">
+                                📂 باز کردن پوشه فایل
+                            </button>
+                            <button class="btn btn-outline btn-sm" id="btnCloseCustomBanner" title="بستن پیام">✕</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Interactive Data Table -->
+                <div class="table-container">
+                    <div class="table-scroll">
+                        <table class="data-table" id="convertTable">
+                            <thead>
+                                <tr>
+                                    <th class="col-num">کد انبار(*)</th>
+                                    <th class="col-num">کد کالا(*)</th>
+                                    <th>نام محصول</th>
+                                    <th class="col-num">کف جدید(*)</th>
+                                    <th class="col-num">سقف جدید(*)</th>
+                                    <th class="col-num">کف قبلی</th>
+                                    <th class="col-num">سقف قبلی</th>
+                                    <th class="col-num">بچ مادر</th>
+                                    <th style="text-align: center;">وضعیت کالا</th>
+                                    <th class="col-num">موجودی قفسه</th>
+                                    <th class="col-num">موجودی آزاد مرکز</th>
+                                    <th style="text-align: center;">وضعیت تأمین</th>
+                                </tr>
+                            </thead>
+                            <tbody id="convertTableBody">
+                                <tr>
+                                    <td colspan="12" style="text-align: center; padding: 3rem; color: var(--text-muted);">
+                                        در حال دریافت داده‌های شعبه...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Pagination Footer -->
+                    <div class="table-footer">
+                        <div class="pagination-group">
+                            <button class="btn btn-secondary btn-sm" id="btnFirstPage" title="صفحه اول">««</button>
+                            <button class="btn btn-secondary btn-sm" id="btnPrevPage" title="صفحه قبل">« قبلی</button>
+                            <span class="page-info" id="convertPageInfo">صفحه ۱ از ۱</span>
+                            <button class="btn btn-secondary btn-sm" id="btnNextPage" title="صفحه بعد">بعدی »</button>
+                            <button class="btn btn-secondary btn-sm" id="btnLastPage" title="صفحه آخر">»»</button>
+                        </div>
+                        <div class="pagination-group">
+                            <label for="pageSizeSelect" style="color: var(--text-secondary);">تعداد در صفحه:</label>
+                            <select class="form-select form-select-sm" id="pageSizeSelect" style="width: 85px;">
+                                <option value="50" selected>۵۰</option>
+                                <option value="100">۱۰۰</option>
+                                <option value="250">۲۵۰</option>
+                                <option value="500">۵۰۰</option>
+                                <option value="10000">همه</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ─────────────────────────────────────────────────────────────
+                 TAB 2: AI ASSISTANT & OCR/IMAGE CONVERT
+                 ───────────────────────────────────────────────────────────── -->
+            <section class="tab-pane" id="tab-ai">
+                <div class="ai-grid">
+                    <!-- Drop Zone Card -->
+                    <div class="drop-zone" id="dropZone">
+                        <div class="drop-zone-icon">📁 / 📷</div>
+                        <div class="drop-zone-title">بارگذاری فایل اکسل دلخواه یا تصویر فاکتور / لیست کدها</div>
+                        <div class="drop-zone-desc">فایل اکسل (.xlsx, .xls) یا تصویر را اینجا رها کنید یا کلیک کنید (پشتیبانی از Ctrl+V)</div>
+                        <input type="file" id="aiFileInput" accept="image/*, .xlsx, .xls" style="display: none;">
+
+                        <div class="image-preview-container" id="imagePreviewContainer">
+                            <img src="" alt="پیش‌نمایش تصویر" class="image-preview-img" id="imagePreview">
+                            <button type="button" class="btn-remove-preview" id="btnRemoveImage" title="حذف تصویر">✕</button>
+                        </div>
+                    </div>
+
+                    <!-- Controls Card -->
+                    <div class="ai-controls-card">
+                        <div>
+                            <label for="promptInput" style="font-weight: 700; color: var(--text-primary); display: block; margin-bottom: 0.5rem;">
+                                دستور به هوش مصنوعی (فارسی طبیعی):
+                            </label>
+                            <textarea class="form-textarea" id="promptInput" placeholder="مثال: روغن‌های ساعی و لادن کف ۳۵ سقف ۱۰۰ برای شعبه فضل، یا شوینده‌های پریل کف ۲۰ سقف ۵۰"></textarea>
+                        </div>
+
+                        <div style="display: flex; gap: var(--space-3); align-items: center; flex-wrap: wrap;">
+                            <label for="aiStoreSelect" style="font-weight: 700; color: var(--text-secondary);">شعبه مقصد:</label>
+                            <select class="form-select" id="aiStoreSelect" style="min-width: 180px; flex: 1;">
+                                <option value="">انتخاب شعبه...</option>
+                            </select>
+                            <button class="btn btn-primary" id="btnRunAI" style="flex-shrink: 0;">
+                                ✨ استخراج هوشمند و انطباق با انبار
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI Extracted Table -->
+                <div class="toolbar-card" id="aiResultsToolbar" style="display: none;">
+                    <div class="toolbar-group">
+                        <span style="font-weight: 700;">کالاهای استخراج‌شده و منطبق:</span>
+                        <span class="badge-count" id="aiResultCount">۰ کالا</span>
+                    </div>
+                    <div class="toolbar-group">
+                        <button class="btn btn-primary" id="btnExportAI">
+                            💾 تولید فایل کانورت اصلاحی برای این اقلام
+                        </button>
+                        <button class="btn btn-success" id="btnCopyAI">
+                            📋 کپی ۵ ستون استاندارد ERP
+                        </button>
+                    </div>
+                </div>
+
+                <div class="table-container" id="aiTableContainer" style="display: none;">
+                    <div class="table-scroll">
+                        <table class="data-table" id="aiTable">
+                            <thead>
+                                <tr>
+                                    <th class="col-num">کد انبار</th>
+                                    <th class="col-num">کد کالا</th>
+                                    <th>نام محصول منطبق</th>
+                                    <th class="col-num">کف تعیین‌شده</th>
+                                    <th class="col-num">سقف تعیین‌شده</th>
+                                    <th class="col-num">بچ مادر</th>
+                                    <th>وضعیت</th>
+                                    <th>توضیحات انطباق</th>
+                                </tr>
+                            </thead>
+                            <tbody id="aiTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ─────────────────────────────────────────────────────────────
+                 TAB 3: AUDIT & HEALTH MONITORING
+                 ───────────────────────────────────────────────────────────── -->
+            <section class="tab-pane" id="tab-audit">
+                <!-- 4 Metric Cards -->
+                <div class="metric-cards-grid">
+                    <div class="metric-card red" id="cardPishOverMax" data-category="pish_over_max">
+                        <div class="metric-card-header">
+                            <span class="metric-card-title">پیشنهاد بیش از سقف</span>
+                            <span class="metric-card-icon">🔴</span>
+                        </div>
+                        <div class="metric-card-value" id="countPishOverMax">۰</div>
+                        <div class="metric-card-desc">پیشنهاد ارسال سیستم بیشتر از سقف موجودی</div>
+                    </div>
+
+                    <div class="metric-card orange" id="cardRoundOverMax" data-category="round_over_max">
+                        <div class="metric-card-header">
+                            <span class="metric-card-title">پیشنهاد گردشده بیش از سقف</span>
+                            <span class="metric-card-icon">🟠</span>
+                        </div>
+                        <div class="metric-card-value" id="countRoundOverMax">۰</div>
+                        <div class="metric-card-desc">گرد کردن کارتن باعث عبور از ظرفیت سقف شده</div>
+                    </div>
+
+                    <div class="metric-card yellow" id="cardMinGeMax" data-category="min_ge_max">
+                        <div class="metric-card-header">
+                            <span class="metric-card-title">کف بزرگتر یا مساوی سقف</span>
+                            <span class="metric-card-icon">🟡</span>
+                        </div>
+                        <div class="metric-card-value" id="countMinGeMax">۰</div>
+                        <div class="metric-card-desc">نقض قانون سلامت داده و خطای قطعی سیستم ERP</div>
+                    </div>
+
+                    <div class="metric-card purple" id="cardSopViolations" data-category="sop_violations">
+                        <div class="metric-card-header">
+                            <span class="metric-card-title">نقض قوانین SOP</span>
+                            <span class="metric-card-icon">🟣</span>
+                        </div>
+                        <div class="metric-card-value" id="countSopViolations">۰</div>
+                        <div class="metric-card-desc">شوینده ۱۰L، سبد، گوشت فله یا اقلام صفر دائمی</div>
+                    </div>
+                </div>
+
+                <!-- Audit Controls Bar -->
+                <div class="toolbar-card">
+                    <div class="toolbar-group">
+                        <label for="auditStoreSelect" style="font-weight: 700; color: var(--text-secondary);">فیلتر شعبه:</label>
+                        <select class="form-select" id="auditStoreSelect" style="min-width: 180px;">
+                            <option value="ALL">همه شعب</option>
+                        </select>
+
+                        <label for="auditCategorySelect" style="font-weight: 700; color: var(--text-secondary);">دسته‌بندی مغایرت:</label>
+                        <select class="form-select" id="auditCategorySelect" style="min-width: 220px;">
+                            <option value="ALL">همه موارد پایش‌شده</option>
+                            <option value="pish_over_max">🔴 پیشنهاد بیش از سقف</option>
+                            <option value="round_over_max">🟠 پیشنهاد گردشده بیش از سقف</option>
+                            <option value="min_ge_max">🟡 کف بزرگتر یا مساوی سقف</option>
+                            <option value="sop_violations">🟣 نقض قوانین SOP</option>
+                        </select>
+
+                        <span class="badge-count" id="auditCountBadge">
+                            تعداد خطاها: <b id="auditTotalFiltered">۰</b> مورد
+                        </span>
+                    </div>
+
+                    <div class="toolbar-group">
+                        <button class="btn btn-warning" id="btnAutoFixAll">
+                            🛠️ اصلاح خودکار تمام مغایرت‌ها و تولید فایل تعادل
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Audit Data Table -->
+                <div class="table-container">
+                    <div class="table-scroll">
+                        <table class="data-table" id="auditTable">
+                            <thead>
+                                <tr>
+                                    <th>شعبه</th>
+                                    <th class="col-num">کد کالا</th>
+                                    <th>نام محصول</th>
+                                    <th style="text-align: center;">نوع مغایرت</th>
+                                    <th class="col-num">کف فعلی</th>
+                                    <th class="col-num">سقف فعلی</th>
+                                    <th class="col-num">پیشنهاد سیستم</th>
+                                    <th>شرح مشکل</th>
+                                    <th>اصلاح پیشنهادی الگوریتم</th>
+                                </tr>
+                            </thead>
+                            <tbody id="auditTableBody">
+                                <tr>
+                                    <td colspan="9" style="text-align: center; padding: 3rem; color: var(--text-muted);">
+                                        در حال اجرای پایش هوشمند مغایرت‌ها...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ─────────────────────────────────────────────────────────────
+                 TAB 4: DIFF TRACKER & TELEGRAM
+                 ───────────────────────────────────────────────────────────── -->
+            <section class="tab-pane" id="tab-diff">
+                <div class="diff-layout">
+                    <!-- Left Column: Diff Table & Changes -->
+                    <div>
+                        <div class="toolbar-card">
+                            <div class="toolbar-group">
+                                <span class="badge-count">
+                                    تغییرات سقف و کف: <b id="diffCountChanges">۰</b>
+                                </span>
+                                <span class="badge-count">
+                                    اقلام افزوده: <b id="diffCountAdded">۰</b>
+                                </span>
+                                <span class="badge-count">
+                                    اقلام حذف‌شده: <b id="diffCountRemoved">۰</b>
+                                </span>
+                            </div>
+                            <div class="toolbar-group">
+                                <button class="btn btn-secondary btn-sm" id="btnRefreshDiff">
+                                    🔄 بروزرسانی مقایسه
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="table-container">
+                            <div class="table-scroll" style="max-height: calc(100vh - 360px);">
+                                <table class="data-table" id="diffTable">
+                                    <thead>
+                                        <tr>
+                                            <th>شعبه</th>
+                                            <th class="col-num">کد کالا</th>
+                                            <th>نام محصول</th>
+                                            <th class="col-num">کف قبلی</th>
+                                            <th class="col-num">کف جدید</th>
+                                            <th class="col-num">سقف قبلی</th>
+                                            <th class="col-num">سقف جدید</th>
+                                            <th>تغییر اعمال‌شده</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="diffTableBody">
+                                        <tr>
+                                            <td colspan="8" style="text-align: center; padding: 3rem; color: var(--text-muted);">
+                                                در حال مقایسه فایل جاری با فایل قبلی...
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Telegram Card -->
+                    <div class="telegram-card">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <h3 style="font-size: 1.05rem; font-weight: 700;">📱 گزارش تلگرام / واتس‌اپ</h3>
+                            <button class="btn btn-success btn-sm" id="btnCopyTelegram">
+                                📋 کپی متن گزارش برای مدیر فروشگاه
+                            </button>
+                        </div>
+
+                        <div>
+                            <label for="diffStoreSelect" style="font-size: 0.85rem; color: var(--text-secondary); display: block; margin-bottom: 0.35rem;">
+                                انتخاب شعبه جهت متن پیام:
+                            </label>
+                            <select class="form-select" id="diffStoreSelect">
+                                <option value="ALL">همه شعب شبکه</option>
+                            </select>
+                        </div>
+
+                        <div class="telegram-preview-box" id="telegramBox">در حال تدوین خلاصه گزارش...</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ─────────────────────────────────────────────────────────────
+                 TAB 5: PRESETS & SCENARIOS
+                 ───────────────────────────────────────────────────────────── -->
+            <section class="tab-pane" id="tab-presets">
+                <div class="presets-grid" id="presetsCardsContainer">
+                    <!-- 5 Quick Preset Cards will be rendered dynamically -->
+                </div>
+
+                <div class="toolbar-card">
+                    <div class="toolbar-group">
+                        <label for="presetStoreSelect" style="font-weight: 700; color: var(--text-secondary);">شعبه هدف:</label>
+                        <select class="form-select" id="presetStoreSelect" style="min-width: 200px;">
+                            <option value="">انتخاب شعبه...</option>
+                        </select>
+
+                        <button class="btn btn-primary" id="btnApplySelectedPreset">
+                            ⚡ اعمال سناریو روی شعبه
+                        </button>
+
+                        <div class="search-box-wrapper" style="min-width: 240px;">
+                            <span class="search-icon">🔍</span>
+                            <input type="text" class="form-control" id="searchPresetGoods" placeholder="جستجو در شناسنامه کالاها...">
+                        </div>
+                    </div>
+
+                    <div class="toolbar-group">
+                        <button class="btn btn-primary" id="btnExportPreset" disabled>
+                            💾 تولید فایل کانورت سناریو
+                        </button>
+                        <button class="btn btn-success" id="btnCopyPreset" disabled>
+                            📋 کپی ۵ ستون استاندارد ERP
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Scenario Items Table -->
+                <div class="table-container">
+                    <div class="table-scroll">
+                        <table class="data-table" id="presetTable">
+                            <thead>
+                                <tr>
+                                    <th class="col-num">کد انبار</th>
+                                    <th class="col-num">کد کالا</th>
+                                    <th>نام محصول</th>
+                                    <th class="col-num">کف سناریو</th>
+                                    <th class="col-num">سقف سناریو</th>
+                                    <th class="col-num">کف قبلی</th>
+                                    <th class="col-num">سقف قبلی</th>
+                                    <th class="col-num">بچ مادر</th>
+                                    <th>دسته‌بندی / سناریو منطبق</th>
+                                </tr>
+                            </thead>
+                            <tbody id="presetTableBody">
+                                <tr>
+                                    <td colspan="9" style="text-align: center; padding: 3rem; color: var(--text-muted);">
+                                        یکی از سناریوهای بالا را انتخاب و دکمه «اعمال سناریو» را بزنید.
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- TOAST CONTAINER -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- GLOBAL LOADING OVERLAY -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+        <div class="loading-text" id="loadingText">در حال پردازش عملیات...</div>
+    </div>
+
+    <!-- APP SCRIPT -->
+    <script src="/js/app.js"></script>
+</body>
+</html>

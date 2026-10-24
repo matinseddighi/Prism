@@ -1,0 +1,380 @@
+/* =====================================================================
+ * style.css — استایل‌های اصلی پنل مستقل ERPConverter
+ * ===================================================================== */
+html, body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: var(--fs-base);
+  line-height: var(--lh);
+  direction: rtl;
+  min-height: 100vh;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Header */
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--sp-3) var(--sp-6);
+  background-color: var(--panel);
+  border-bottom: 1px solid var(--line);
+  box-shadow: var(--sh-1);
+}
+
+.header-left, .header-right {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+}
+
+.header-title-box {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+.app-title {
+  margin: 0;
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-bold);
+  color: var(--cyan);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: var(--r-pill);
+  font-size: var(--fs-2xs);
+  font-weight: var(--fw-med);
+  border: 1px solid var(--line2);
+  background: var(--panel2);
+}
+
+.badge-cyan { color: var(--cyan); border-color: color-mix(in srgb, var(--cyan) 40%, transparent); background: color-mix(in srgb, var(--cyan) 10%, transparent); }
+.badge-green { color: var(--green); border-color: color-mix(in srgb, var(--green) 40%, transparent); background: color-mix(in srgb, var(--green) 10%, transparent); }
+.badge-amber { color: var(--amber); border-color: color-mix(in srgb, var(--amber) 40%, transparent); background: color-mix(in srgb, var(--amber) 10%, transparent); }
+.badge-red { color: var(--red); border-color: color-mix(in srgb, var(--red) 40%, transparent); background: color-mix(in srgb, var(--red) 10%, transparent); }
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+  height: var(--ctl-h);
+  padding: 0 var(--sp-4);
+  font-family: var(--font);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-med);
+  border-radius: var(--r-sm);
+  border: 1px solid var(--line2);
+  background: var(--panel2);
+  color: var(--ink);
+  cursor: pointer;
+  transition: all var(--dur-1) var(--ease-std);
+  white-space: nowrap;
+}
+
+.btn:hover {
+  background: var(--panel3);
+  border-color: var(--cyan);
+}
+
+.btn-primary {
+  background: var(--cyan);
+  color: var(--on-cyan);
+  border-color: var(--cyan);
+  font-weight: var(--fw-bold);
+}
+.btn-primary:hover {
+  filter: brightness(1.1);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--cyan) 40%, transparent);
+}
+
+.btn-success {
+  background: var(--green);
+  color: var(--on-green);
+  border-color: var(--green);
+}
+.btn-success:hover {
+  filter: brightness(1.1);
+}
+
+.btn-sm {
+  height: var(--ctl-h-sm);
+  padding: 0 var(--sp-2);
+  font-size: var(--fs-xs);
+}
+
+/* Main Content Area */
+.main-content {
+  flex: 1;
+  padding: var(--sp-4) var(--sp-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+}
+
+/* Control Bar */
+.control-bar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--sp-3) var(--sp-4);
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  gap: var(--sp-3);
+}
+
+.source-status-text {
+  font-size: var(--fs-sm);
+  color: var(--ink2);
+}
+
+.source-highlight {
+  color: var(--ink);
+  font-weight: var(--fw-bold);
+}
+
+/* KPI Cards Grid */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: var(--sp-3);
+}
+
+.kpi-card {
+  display: flex;
+  flex-direction: column;
+  padding: var(--sp-3) var(--sp-4);
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  box-shadow: var(--sh-1);
+  transition: border-color var(--dur-2);
+}
+
+.kpi-card:hover {
+  border-color: var(--line2);
+}
+
+.kpi-title {
+  font-size: var(--fs-xs);
+  color: var(--ink2);
+  margin-bottom: var(--sp-1);
+}
+
+.kpi-value {
+  font-size: var(--fs-kpi);
+  font-weight: var(--fw-black);
+  line-height: 1.1;
+  color: var(--cyan);
+}
+
+.kpi-value.green { color: var(--green); }
+.kpi-value.amber { color: var(--amber); }
+.kpi-value.red { color: var(--red); }
+.kpi-value.violet { color: var(--violet); }
+
+.kpi-sub {
+  font-size: var(--fs-2xs);
+  color: var(--ink3);
+  margin-top: var(--sp-1);
+}
+
+/* Tab Navigation */
+.tabs-nav {
+  display: flex;
+  gap: var(--sp-2);
+  border-bottom: 2px solid var(--line);
+  margin-top: var(--sp-2);
+}
+
+.tab-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: var(--sp-2) var(--sp-4);
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  color: var(--ink2);
+  font-family: var(--font);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-med);
+  cursor: pointer;
+  transition: all var(--dur-1);
+}
+
+.tab-btn:hover {
+  color: var(--ink);
+}
+
+.tab-btn.active {
+  color: var(--cyan);
+  border-bottom-color: var(--cyan);
+  font-weight: var(--fw-bold);
+}
+
+/* Table Card & Filter Bar */
+.panel-card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  padding: var(--sp-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  box-shadow: var(--sh-1);
+}
+
+.filter-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+}
+
+.search-input {
+  height: var(--ctl-h);
+  width: 280px;
+  padding: 0 var(--sp-3);
+  background: var(--panel2);
+  border: 1px solid var(--line-ctl);
+  border-radius: var(--r-sm);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: var(--fs-sm);
+  transition: border-color var(--dur-1);
+}
+
+.search-input:focus {
+  border-color: var(--cyan);
+}
+
+.select-input {
+  height: var(--ctl-h);
+  padding: 0 var(--sp-3);
+  background: var(--panel2);
+  border: 1px solid var(--line-ctl);
+  border-radius: var(--r-sm);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: var(--fs-sm);
+}
+
+/* Live Data Grid */
+.table-container {
+  overflow-x: auto;
+  max-height: 560px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs-sm);
+  text-align: right;
+  white-space: nowrap;
+}
+
+.data-table th {
+  position: sticky;
+  top: 0;
+  background: var(--panel3);
+  color: var(--ink);
+  font-weight: var(--fw-bold);
+  padding: var(--sp-2) var(--sp-3);
+  border-bottom: 2px solid var(--line2);
+  z-index: 10;
+  text-align: center;
+}
+
+.data-table td {
+  padding: var(--sp-1) var(--sp-3);
+  border-bottom: 1px solid var(--line);
+  color: var(--ink);
+}
+
+.data-table tr:hover td {
+  background: var(--panel2);
+}
+
+.data-table tr.deficit td {
+  background: color-mix(in srgb, var(--red) 12%, transparent);
+}
+
+/* In-grid inputs */
+.cell-input {
+  width: 50px;
+  height: 26px;
+  padding: 0 4px;
+  text-align: center;
+  background: var(--panel);
+  border: 1px solid var(--line-ctl);
+  border-radius: var(--r-xs);
+  color: var(--cyan);
+  font-weight: var(--fw-bold);
+  font-family: var(--font);
+  font-size: var(--fs-sm);
+}
+
+.cell-input:focus {
+  border-color: var(--cyan);
+  background: var(--panel2);
+  outline: none;
+}
+
+.cell-basis {
+  font-size: var(--fs-2xs);
+  color: var(--ink3);
+  display: block;
+}
+
+/* Toast container */
+.toast-container {
+  position: fixed;
+  bottom: var(--sp-6);
+  left: var(--sp-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  z-index: 9999;
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-3) var(--sp-5);
+  border-radius: var(--r-sm);
+  background: var(--panel3);
+  border: 1px solid var(--cyan);
+  color: var(--ink);
+  box-shadow: var(--sh-3);
+  animation: slideIn var(--dur-2) var(--ease-spring);
+  font-size: var(--fs-sm);
+}
+
+.toast.success { border-color: var(--green); }
+.toast.error { border-color: var(--red); }
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}

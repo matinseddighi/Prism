@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="fa" dir="rtl" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>پایش قیمت و تخفیف</title>
+<link rel="stylesheet" href="/web/tokens.css">
+<link rel="stylesheet" href="/web/icons.css">
+<link rel="stylesheet" href="/web/style.css">
+<link rel="stylesheet" href="/web/desk.css">
+<link rel="stylesheet" href="/web/control.css">
+<link rel="stylesheet" href="/web/store.css">
+<link rel="stylesheet" href="/web/basket.css">
+<link rel="stylesheet" href="/web/net.css">
+<link rel="stylesheet" href="/web/wh.css">
+<link rel="stylesheet" href="/web/fc.css">
+<link rel="stylesheet" href="/web/pl3d.css">
+<link rel="stylesheet" href="/web/focus.css">
+<link rel="stylesheet" href="/web/flow.css">
+<link rel="stylesheet" href="/web/erp.css">
+<script type="importmap">{ "imports": { "three": "/web/vendor/three/three.module.js", "three/addons/": "/web/vendor/three/addons/", "three/examples/jsm/": "/web/vendor/three/addons/", "postprocessing": "/web/vendor/n8ao/postprocessing-stub.js" } }</script>
+<script src="/web/vendor/gsap/gsap.min.js"></script>
+</head>
+<body>
+<header class="top">
+  <!-- منوی بخش‌ها: فقط بخش فعال پیداست؛ فلش کنارش بقیه را با انیمیشن باز می‌کند -->
+  <nav class="tabs collapsed" id="tabs" aria-label="بخش‌ها"><a href="#dash" data-view="dash"><i class="ico ico-grid" aria-hidden="true"></i> داشبورد</a><a href="#store" data-view="store"><i class="ico ico-gamepad" aria-hidden="true"></i> فروشگاه</a><a href="#pl" data-view="pl"><i class="ico ico-coins" aria-hidden="true"></i> سود و زیان</a><a href="#basket" data-view="basket"><i class="ico ico-basket" aria-hidden="true"></i> سبد</a><a href="#net" data-view="net"><i class="ico ico-truck" aria-hidden="true"></i> شبکه ارسال</a><a href="#wh" data-view="wh"><i class="ico ico-warehouse" aria-hidden="true"></i> انبار مرکزی</a><a href="#fc" data-view="fc"><i class="ico ico-scale" aria-hidden="true"></i> کف و سقف</a><a href="#desk" data-view="desk"><i class="ico ico-calculator" aria-hidden="true"></i> میز تخفیف</a><a href="#changes" data-view="changes"><i class="ico ico-refresh" aria-hidden="true"></i> تغییرات</a><a href="#control" data-view="control"><i class="ico ico-shield" aria-hidden="true"></i> کنترل تخفیف</a><a href="#flow" data-view="flow"><i class="ico ico-circle-check" aria-hidden="true"></i> تأیید و اعمال</a><a href="#erp" data-view="erp"><i class="ico ico-file-text" aria-hidden="true"></i> کانورت ERP</a><button class="tabs-more" id="tabsMore" type="button" aria-expanded="false" aria-controls="tabs" title="همه بخش‌ها" aria-label="نمایش همه بخش‌ها"><i class="ico ico-chevron-down" aria-hidden="true"></i></button></nav>
+  <div class="search"><input id="q" type="search" placeholder="جستجوی کالا (کد یا نام) — Ctrl+K" autocomplete="off" aria-label="جستجوی کالا"><div class="sug" id="sug" hidden></div></div>
+  <!-- منوی ابزار: تاریخ گزارش‌ها، ساعت، بررسی بعدی و همه دکمه‌ها (شناسه‌ها همان قبلی؛ gw.js دکمه دریافت گزارش را کنار تنظیمات می‌گذارد) -->
+  <div class="hm" id="hm">
+    <button class="hm-btn" id="hmBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="hmPanel" title="گزارش‌ها، ساعت و ابزارها"><span class="hm-live" aria-hidden="true"></span><i class="ico ico-list" aria-hidden="true"></i><span class="sr-only">منوی ابزار</span></button>
+    <div class="hm-panel" id="hmPanel" hidden>
+      <div class="hm-head">
+        <div class="clock" id="clock"></div>
+        <div class="hm-next"><span class="countdown" id="countdown"></span><span class="hm-bar"><i id="hmBar"></i></span></div>
+      </div>
+      <div class="hdr-src" id="hdrSrc"></div>
+      <div class="hm-tiles">
+        <button class="ib ai" id="btnAI" title="دستیار هوشمند (Gemini)" aria-label="دستیار هوشمند" data-label="دستیار هوشمند"><i class="ico ico-sparkles" aria-hidden="true"></i></button>
+        <button class="ib" id="btnRefresh" title="بررسی دوباره پوشه" aria-label="بررسی دوباره پوشه" data-label="بررسی دوباره"><i class="ico ico-refresh" aria-hidden="true"></i></button>
+        <button class="ib" id="btnSet" title="تنظیمات" aria-label="تنظیمات" data-label="تنظیمات"><i class="ico ico-settings" aria-hidden="true"></i></button>
+        <button class="ib" id="btnTheme" title="روشن / تیره" aria-label="تغییر پوسته" data-label="روشن / تیره"><i class="ico ico-contrast" aria-hidden="true"></i></button>
+        <button class="ib" id="btnFull" title="تمام‌صفحه" aria-label="تمام‌صفحه" data-label="تمام‌صفحه"><i class="ico ico-maximize" aria-hidden="true"></i></button>
+      </div>
+    </div>
+  </div>
+</header>
+<div class="progress" id="progress" hidden><i></i><span></span></div>
+<main id="main"></main>
+<div class="drawer-wrap" id="drawerWrap" hidden><div class="drawer-back" id="drawerBack"></div><aside class="drawer" id="drawer" tabindex="-1" aria-label="پرونده کالا"></aside></div>
+<script src="/lib/engine.js"></script>
+<script src="/lib/analysis.js"></script>
+<script src="/lib/xlsx.js"></script>
+<script src="/lib/policy.js"></script>
+<script src="/lib/pl.js"></script>
+<script src="/web/charts.js"></script>
+<script src="/web/ui.js"></script>
+<script src="/web/motion3d.js"></script>
+<script src="/web/deskcore.js"></script>
+<script src="/web/desk.js"></script>
+<script src="/web/changescore.js"></script>
+<script src="/web/changesx.js"></script>
+<script src="/web/changes.js"></script>
+<script src="/web/leakcore.js"></script>
+<script src="/web/control.js"></script>
+<script src="/web/storecore.js"></script>
+<script type="module" src="/web/store.js"></script>
+<script src="/web/basketcore.js"></script>
+<script type="module" src="/web/basket.js"></script>
+<script src="/web/netcore.js"></script>
+<script type="module" src="/web/net.js"></script>
+<script src="/web/whcore.js"></script>
+<script type="module" src="/web/wh.js"></script>
+<script src="/web/plcore.js"></script>
+<script type="module" src="/web/pl3d.js"></script>
+<script src="/web/fc.js"></script>
+<script src="/web/focus.js"></script>
+<script src="/web/flowcore.js"></script>
+<script src="/web/flow.js"></script>
+<script src="/web/erp.js"></script>
+<script src="/web/app.js"></script>
+<script src="/web/ai.js"></script>
+<script src="/web/gw.js"></script>
+</body>
+</html>

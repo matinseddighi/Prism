@@ -1,0 +1,58 @@
+/* تب «کف و سقف» (fc.js) — کلاس‌ها با پیشوند fc- ؛ فقط متغیرهای tokens.css (هر دو پوسته) */
+.fc-wrap { display: flex; flex-direction: column; gap: var(--sp-4); }
+.fc-top { display: flex; flex-direction: column; gap: var(--sp-3); }
+.fc-title { display: flex; align-items: center; gap: var(--sp-3); flex-wrap: wrap; }
+.fc-title h2 { margin: 0; font-size: var(--fs-lg); display: flex; align-items: center; gap: var(--sp-2); }
+.fc-src { display: flex; align-items: center; gap: var(--sp-2); flex-wrap: wrap; }
+.fc-date { background: color-mix(in srgb, var(--cyan) 16%, transparent); color: var(--cyan); font-weight: 700; }
+.fc-tools { display: flex; align-items: center; gap: var(--sp-3); flex-wrap: wrap; }
+.fc-sel { display: inline-flex; align-items: center; gap: var(--sp-2); font-size: var(--fs-sm); color: var(--ink2); }
+.fc-sel select, .fc-bar input, .fc-ai textarea { background: var(--panel2); border: 1px solid var(--line2); border-radius: var(--r-md); padding: 6px 10px; color: var(--ink); font: inherit; }
+.fc-sel select:focus, .fc-bar input:focus, .fc-ai textarea:focus { outline: none; border-color: var(--cyan); }
+.fc-n { font-size: var(--fs-2xs); background: var(--red); color: var(--on-red); border-radius: var(--r-pill); padding: 0 6px; margin-inline-start: 4px; }
+.fc-acts { display: inline-flex; gap: var(--sp-2); flex-wrap: wrap; align-items: center; }
+.fc-bar { display: flex; gap: var(--sp-2); flex-wrap: wrap; align-items: center; margin-bottom: var(--sp-3); }
+.fc-bar input { min-width: 220px; }
+.fc-tbl { max-height: 62vh; }
+.fc-tbl table { width: 100%; border-collapse: collapse; font-size: var(--fs-sm); }
+.fc-tbl th { position: sticky; top: 0; z-index: 1; background: var(--panel2); color: var(--ink2); font-weight: 600; text-align: start; padding: 6px 8px; white-space: nowrap; }
+.fc-tbl td { padding: 4px 8px; border-top: 1px solid var(--line); vertical-align: middle; }
+.fc-tbl td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.fc-tbl tr:hover td { background: var(--panel3); }
+.fc-name { max-width: 340px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.fc-in { width: 64px; text-align: center; background: var(--panel2); border: 1px solid var(--line2); border-radius: var(--r-sm); padding: 3px 4px; color: var(--ink); font: inherit; font-weight: 700; }
+.fc-in:focus { outline: none; border-color: var(--cyan); background: var(--panel); }
+tr.fc-ed td { background: color-mix(in srgb, var(--tag-fill, var(--amber)) 14%, transparent); }
+tr.fc-ed .fc-in { border-color: var(--amber); }
+tr.fc-off td { opacity: .45; }
+.fc-all { border: 1px solid var(--line2); background: none; color: var(--cyan); border-radius: var(--r-pill); font-size: var(--fs-2xs); padding: 0 8px; cursor: pointer; margin-inline-start: 4px; }
+.fc-all:hover { border-color: var(--cyan); }
+.chip.fc-green { background: color-mix(in srgb, var(--green) 16%, transparent); color: var(--green); }
+.chip.fc-amber { background: color-mix(in srgb, var(--amber) 18%, transparent); color: var(--amber); }
+.chip.fc-red { background: color-mix(in srgb, var(--red) 16%, transparent); color: var(--red); }
+.fc-tbl .chip[style] { background: color-mix(in srgb, var(--c) 16%, transparent); color: var(--c); }
+.fc-pg { display: flex; align-items: center; justify-content: center; gap: var(--sp-2); margin-top: var(--sp-3); font-size: var(--fs-sm); color: var(--ink2); }
+.fc-focus { border-color: var(--cyan); box-shadow: 0 0 0 1px var(--cyan), var(--glow); }
+.fc-custom { border-color: var(--green); }
+.fc-stats { display: flex; gap: var(--sp-4); flex-wrap: wrap; font-size: var(--fs-sm); }
+.fc-sub { padding: 6px 2px; }
+.fc-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: var(--sp-3); }
+.fc-card { text-align: start; display: flex; flex-direction: column; gap: 4px; background: var(--panel); border: 1px solid var(--line); border-inline-start: 3px solid var(--c); border-radius: var(--r-lg); padding: 12px 14px; cursor: pointer; color: var(--ink); box-shadow: var(--glow); }
+.fc-card:hover { background: var(--panel3); }
+.fc-card.on { border-color: var(--c); box-shadow: 0 0 0 1px var(--c); }
+.fc-card span { font-size: var(--fs-sm); color: var(--ink2); font-weight: 600; }
+.fc-card b { font-size: 26px; font-weight: 800; color: var(--c); line-height: 1.1; }
+.fc-card em { font-style: normal; font-size: var(--fs-2xs); color: var(--ink3); }
+.fc-fix { display: flex; flex-wrap: wrap; gap: var(--sp-2) var(--sp-4); align-items: center; margin-bottom: var(--sp-2); }
+.fc-ai { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: var(--sp-3); margin-bottom: var(--sp-3); }
+.fc-ai textarea { resize: vertical; min-height: 96px; }
+.fc-drop { border: 1.5px dashed var(--line2); border-radius: var(--r-md); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--sp-2); color: var(--ink3); font-size: var(--fs-sm); padding: 8px; min-height: 96px; }
+.fc-drop img { max-width: 100%; max-height: 160px; border-radius: var(--r-sm); }
+.fc-warn { color: var(--amber); font-size: var(--fs-sm); margin: 0 0 var(--sp-2); }
+/* کارت داشبورد */
+.fc-dcard .p-h .muted { flex: 1; }
+.fc-dash { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--sp-2); }
+.fc-dk { display: flex; flex-direction: column; gap: 2px; padding: 8px 10px; border-radius: var(--r-md); background: var(--panel2); border-inline-start: 3px solid var(--c); text-decoration: none; color: var(--ink2); font-size: var(--fs-sm); }
+.fc-dk b { color: var(--c); font-size: var(--fs-lg); }
+.fc-dk:hover { background: var(--panel3); }
+@media (max-width: 900px) { .fc-ai, .fc-dash { grid-template-columns: 1fr; } }

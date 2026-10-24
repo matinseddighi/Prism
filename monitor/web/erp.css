@@ -1,0 +1,42 @@
+/* تب «کانورت ERP» (erp.js) — کلاس‌ها با پیشوند er- ؛ فقط متغیرهای tokens.css (هر دو پوسته) */
+.er-wrap { display: flex; flex-direction: column; gap: var(--sp-4); }
+.er-top { display: flex; flex-direction: column; gap: var(--sp-3); }
+.er-title { display: flex; align-items: center; gap: var(--sp-3); flex-wrap: wrap; }
+.er-title h2 { margin: 0; font-size: var(--fs-lg); display: flex; align-items: center; gap: var(--sp-2); }
+.er-src { display: flex; align-items: center; gap: var(--sp-2); flex-wrap: wrap; }
+.er-tools { display: flex; align-items: center; gap: var(--sp-2); flex-wrap: wrap; }
+.er-n { font-size: var(--fs-2xs); background: var(--panel3); color: var(--ink); border-radius: var(--r-pill); padding: 0 6px; margin-inline-start: 4px; }
+.er-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: var(--sp-3); }
+.er-k { display: flex; flex-direction: column; gap: 2px; background: var(--panel); border: 1px solid var(--line); border-inline-start: 3px solid var(--cyan); border-radius: var(--r-lg); padding: 10px 14px; }
+.er-k span { font-size: var(--fs-sm); color: var(--ink2); font-weight: 600; }
+.er-k b { font-size: 24px; font-weight: 800; line-height: 1.15; color: var(--ink); }
+.er-k small { font-size: var(--fs-2xs); color: var(--ink3); }
+.er-k.amber { border-inline-start-color: var(--amber); } .er-k.amber b { color: var(--amber); }
+.er-k.red { border-inline-start-color: var(--red); } .er-k.red b { color: var(--red); }
+.er-bar { display: flex; gap: var(--sp-2); flex-wrap: wrap; align-items: center; }
+.er-bar input { min-width: 240px; background: var(--panel2); border: 1px solid var(--line2); border-radius: var(--r-md); padding: 6px 10px; color: var(--ink); font: inherit; }
+.er-bar input:focus { outline: none; border-color: var(--cyan); }
+.er-tbl { max-height: 64vh; overflow: auto; }
+.er-tbl table { width: 100%; border-collapse: collapse; font-size: var(--fs-sm); }
+.er-tbl th { position: sticky; top: 0; z-index: 1; background: var(--panel2); color: var(--ink2); font-weight: 600; text-align: start; padding: 6px 8px; white-space: nowrap; }
+.er-tbl td { padding: 5px 8px; border-top: 1px solid var(--line); vertical-align: middle; }
+.er-tbl td.n { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.er-tbl td.it { max-width: 340px; }
+.er-tbl td.it b { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.er-tbl .sub { font-size: var(--fs-2xs); color: var(--ink3); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 220px; }
+.er-tbl tr:hover td { background: var(--panel3); }
+.er-tbl tr.bad td { background: color-mix(in srgb, var(--red) 8%, transparent); }
+.er-in { width: 56px; text-align: center; background: var(--panel2); border: 1px solid var(--line2); border-radius: var(--r-sm); padding: 3px 4px; color: var(--ink); font: inherit; font-weight: 700; }
+.er-in:focus { outline: none; border-color: var(--cyan); background: var(--panel); }
+.er-in.m-err { border-color: var(--red); }
+.chip.er-green { background: color-mix(in srgb, var(--green) 16%, transparent); color: var(--green); }
+.chip.er-amber { background: color-mix(in srgb, var(--amber) 18%, transparent); color: var(--amber); }
+.chip.er-red { background: color-mix(in srgb, var(--red) 16%, transparent); color: var(--red); }
+.chip.er-muted { background: var(--panel3); color: var(--ink2); }
+.er-clash { display: inline-flex; align-items: center; gap: 4px; color: var(--red); font-size: var(--fs-2xs); font-weight: 700; white-space: nowrap; }
+.er-warn { border-color: var(--amber); color: var(--amber); font-size: var(--fs-sm); display: flex; gap: var(--sp-2); align-items: center; }
+.er-done { border-color: var(--green); display: flex; gap: var(--sp-2); align-items: center; flex-wrap: wrap; font-size: var(--fs-sm); }
+.er-done .ico-circle-check { color: var(--green); }
+.er-done .sub { flex-basis: 100%; color: var(--ink3); font-size: var(--fs-2xs); }
+.er-done code { direction: ltr; unicode-bidi: embed; font-size: var(--fs-2xs); }
+.er-done .btn { margin-inline-start: auto; }

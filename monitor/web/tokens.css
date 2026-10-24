@@ -1,0 +1,118 @@
+/* =====================================================================
+ * tokens.css — سیستم طراحی پنل پایش قیمت و تخفیف
+ * سبک: «داشبورد پرتراکم» (ui-ux-pro-max: Data-Dense Dashboard) روی هویت «اتاق کنترل» فعلی.
+ * همه‌ی تب‌ها فقط از این متغیرها استفاده می‌کنند؛ رنگ خام (hex) در کامپوننت‌ها ممنوع است.
+ *
+ * نقش رنگ‌ها:
+ *   --cyan    رنگ اصلی (انتخاب، فوکوس، دکمه اصلی)     --green  مثبت / سالم / انجام‌شده
+ *   --red     خطر / زیان / فوری                        --amber  هشدار / نیازمند توجه
+ *   --violet  اطلاعاتی / عامل / آینده                 --tag    زرد برچسب قفسه = ویرایش کاربر / اقدام
+ *   --crimson خطر شدید (زیر قیمت خرید)                --neutral داده خنثی / «اکنون» در مقایسه
+ * متن روی پس‌زمینه‌ی رنگی: --on-<رنگ>. کنتراست همه‌ی رنگ‌های متن روی همه‌ی سطح‌ها ≥ 4.5:1 (AA) بررسی شده است.
+ * ===================================================================== */
+@font-face { font-family: 'Vazirmatn'; src: url('/lib/fonts/Vazirmatn.woff2') format('woff2'); font-weight: 100 900; font-display: swap; }
+
+:root {
+  /* ---------- تایپوگرافی ---------- */
+  --font: 'Vazirmatn', Tahoma, sans-serif;
+  --fs-2xs: 11px;     /* برچسب ریز، چیپ */
+  --fs-xs: 11.5px;    /* توضیح، زیرنویس */
+  --fs-sm: 12.5px;    /* جدول، فرم */
+  --fs-md: 13.5px;    /* متن پیام و دستیار */
+  --fs-base: 14px;    /* متن پایه */
+  --fs-lg: 15px;      /* عنوان کارت کوچک */
+  --fs-xl: 19px;      /* عنوان صفحه / پرونده */
+  --fs-2xl: 26px;     /* عدد کارت */
+  --fs-kpi: 28px;     /* عدد KPI */
+  --fs-hero: 46px;    /* عدد مرور سریع */
+  --fw-reg: 400; --fw-med: 600; --fw-bold: 700; --fw-black: 800;
+  --lh-tight: 1.25; --lh: 1.6; --lh-loose: 1.9;
+
+  /* ---------- فاصله (شبکه ۴ پیکسلی، تراکم بالا) ---------- */
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-5: 20px; --sp-6: 24px; --sp-8: 32px;
+
+  /* ---------- شعاع ---------- */
+  --r-xs: 4px; --r-sm: 6px; --r-md: 8px; --r-lg: 12px; --r-xl: 16px; --r-pill: 999px;
+
+  /* ---------- اندازه کنترل‌ها ---------- */
+  --ctl-h: 32px; --ctl-h-sm: 26px; --row-h: 36px; --icon: 16px; --icon-sm: 14px;
+
+  /* ---------- حرکت (هویت حرکتی «Corporate» طبق اسکیل motion-design) ----------
+   * امضا: یک منحنی برای ۸۰٪ حرکت‌ها (--ease-std)، سه مدت اصلی سریع/استاندارد/کند،
+   * ورود = کندشونده، خروج = تندشونده و ۳۰–۴۰٪ کوتاه‌تر از ورود، پرش حداکثر ۳٪.
+   * الگوی ورود ثابت: ۸px از پایین + محو (هرگز فقط opacity برای تغییر مهم). */
+  --dur-1: 120ms;   /* سریع: hover، فشردن، tooltip */
+  --dur-2: 200ms;   /* کوچک: آیکن، چیپ، باز و بسته شدن کوچک */
+  --dur-3: 280ms;   /* استاندارد: ورود کارت و پنل، تغییر تب */
+  --dur-modal: 340ms; /* کند: مودال، drawer، پنل کناری */
+  --dur-exit: 180ms;  /* خروج همه‌چیز (کوتاه‌تر از ورود) */
+  --dur-4: 800ms;   /* پر شدن نوار، حلقه و شمارش عدد */
+  --stagger: 35ms;  /* فاصله پله‌ای کارت‌ها؛ ردیف‌ها نصف آن — کل پله‌ها زیر ۴۰۰ms */
+  --rise: 8px;      /* فاصله ورود */
+  --ease-std: cubic-bezier(.2, 0, 0, 1);        /* منحنی امضا: روی صفحه و پیش‌فرض */
+  --ease-out: cubic-bezier(.05, .7, .1, 1);     /* ورود (MD3 Emphasized) */
+  --ease-in: cubic-bezier(.3, 0, 1, 1);         /* خروج و بستن */
+  --ease-in-out: cubic-bezier(.4, 0, .2, 1);    /* حرکت درجا و حلقه‌های محیطی */
+  --ease-spring: cubic-bezier(.3, 1.1, .5, 1);  /* پرش ملایم ~۳٪ برای تأیید و نشان */
+
+  /* ---------- لایه‌ها ---------- */
+  --z-sticky: 30; --z-drawer: 60; --z-side: 65; --z-panel: 70; --z-modal: 80; --z-review: 85; --z-buddy: 88; --z-toast: 90; --z-cmd: 95; --z-tip: 100;
+}
+
+/* ---------- پوسته تیره (پیش‌فرض) ---------- */
+:root, [data-theme="dark"] {
+  /* سطح‌ها: bg < bg2 < panel < panel2 < panel3 */
+  --bg: #0A0F14; --bg2: #0D141B; --panel: #101820; --panel2: #15202B; --panel3: #1A2633;
+  --line: #1C2833;      /* جداکننده */
+  --line2: #2A3B4F;     /* حاشیه کارت و چیپ */
+  --line-ctl: #5A7088;  /* حاشیه ورودی‌ها (≥ 3:1) */
+  /* متن */
+  --ink: #E6EDF4; --ink2: #A3B5C7; --ink3: #8396AA;
+  /* رنگ‌های معنایی */
+  --cyan: #38D1F0; --green: #3DD68C; --red: #FF6B6B; --amber: #FFB547; --violet: #A898FF; --tag: #F2C230; --crimson: #FF5C85; --neutral: #5B6B7C;
+  --tag-fill: #F2C230; --amber-fill: #FFB547;
+  /* متن روی رنگ */
+  --on-cyan: #04212A; --on-green: #04261A; --on-red: #200606; --on-amber: #2B1D00; --on-tag: #231800; --on-violet: #120A33;
+  /* سایه */
+  --sh-1: 0 1px 2px rgba(0, 0, 0, .3);
+  --sh-2: 0 0 0 1px rgba(56, 209, 240, .08), 0 8px 30px rgba(0, 0, 0, .35);
+  --sh-3: 0 10px 28px rgba(0, 0, 0, .35);
+  --sh-4: 0 24px 70px rgba(0, 0, 0, .5);
+  --glow: var(--sh-2);
+  /* پوشش و راهنما */
+  --overlay: rgba(3, 8, 12, .62); --overlay-strong: rgba(3, 8, 12, .82);
+  --tip-bg: #05090D; --tip-ink: #E6EDF4;
+  --grid: rgba(255, 255, 255, .06);
+  --focus: var(--cyan);
+  /* صحنه سه‌بعدی */
+  --stage-a: #2b4a66; --stage-b: #15263a; --stage-c: #0b1522; --stage-ink: #FFFFFF; --stage-hint: rgba(10, 18, 28, .62);
+  color-scheme: dark;
+}
+
+/* ---------- پوسته روشن ---------- */
+[data-theme="light"] {
+  --bg: #EEF2F6; --bg2: #E4EAF0; --panel: #FFFFFF; --panel2: #F2F5F8; --panel3: #E6ECF2;
+  --line: #DCE3EA; --line2: #C9D3DD; --line-ctl: #8494A5;
+  --ink: #15202B; --ink2: #44566A; --ink3: #5A6B7D;
+  --cyan: #0A7491; --green: #0D7646; --red: #C42B2B; --amber: #935D00; --violet: #5B43D6; --tag: #7F5F00; --crimson: #B8174F; --neutral: #8796A6;
+  --tag-fill: #F2C230; --amber-fill: #F5A524;
+  --on-cyan: #FFFFFF; --on-green: #FFFFFF; --on-red: #FFFFFF; --on-amber: #FFFFFF; --on-tag: #231800; --on-violet: #FFFFFF;
+  --sh-1: 0 1px 2px rgba(20, 40, 60, .08);
+  --sh-2: 0 1px 2px rgba(0, 0, 0, .05), 0 6px 20px rgba(20, 40, 60, .07);
+  --sh-3: 0 10px 28px rgba(20, 40, 60, .14);
+  --sh-4: 0 24px 70px rgba(20, 40, 60, .22);
+  --overlay: rgba(20, 32, 43, .35); --overlay-strong: rgba(20, 32, 43, .55);
+  --tip-bg: #15202B; --tip-ink: #F2F5F8;
+  --grid: rgba(0, 0, 0, .07);
+  --stage-a: #f2fbff; --stage-b: #d6ecf7; --stage-c: #b9d9ea; --stage-ink: #13202e; --stage-hint: rgba(255, 255, 255, .85);
+  color-scheme: light;
+}
+
+/* ---------- پایه مشترک ---------- */
+:focus-visible { outline: 2px solid var(--focus) !important; outline-offset: 2px; } /* بر outline: none قدیمی کامپوننت‌ها غلبه می‌کند */
+::selection { background: color-mix(in srgb, var(--cyan) 30%, transparent); }
+* { scrollbar-color: var(--line2) transparent; scrollbar-width: thin; }
+@media (prefers-reduced-motion: reduce) {
+  :root { --dur-1: 0ms; --dur-2: 0ms; --dur-3: 0ms; --dur-4: 0ms; --dur-modal: 0ms; --dur-exit: 0ms; --stagger: 0ms; --rise: 0px; }
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+}
